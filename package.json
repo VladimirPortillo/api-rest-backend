@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node dist/server.js",
-    "start:dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/server.js\""
+    "start:dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/server.js\"",
+    "dev": "nodemon src/server.ts"
   },
   "author": "Valdimir",
   "license": "ISC",
@@ -26,6 +27,7 @@
     "@types/express": "^4.17.17",
     "@types/morgan": "^1.9.4",
     "concurrently": "^8.0.1",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1"
   }
 }
