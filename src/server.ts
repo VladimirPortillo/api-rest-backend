@@ -1,6 +1,18 @@
+
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+
+import { UserRouter } from "./user/user.router";
+import { RolRouter } from "./roles/rol.router";
+import { ComunidadRouter } from "./comunidades/comunidad.router";
+import { ActividadRouter } from "./actividades/actividad.router";
+import { GastronomiaRouter } from "./gastronomias/gastronomia.router";
+import { MenuRouter } from "./menus/menu.router";
+import { AtractivoRouter } from "./atractivos_turisticos/atractivo.router";
+import { RestauranteRouter } from "./restaurantes/restaurante.router";
+import { HotelRouter } from "./hoteles/hotel.router";
+
 
 class ServerBootstrap {
     
@@ -8,23 +20,32 @@ class ServerBootstrap {
     private port: number = 3000;
 
     constructor() {
-        //super();
+      
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
-        //this.passportUse();
-        //this.dbConnect();
         this.app.use(morgan("dev"));
-
-        this.app.use(
+        //this.app.use(cors);
+          this.app.use(
           cors({
             origin: true,
             methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
             credentials: true,
           })
         );
-
-        //this.app.use("/api", this.routers());
-        this.listen();
+      this.app.use("/api", this.routers());
+      this.listen();
+    }
+    routers():Array<express.Router>{
+      return [new UserRouter().router,
+              new RolRouter().router,
+              new ComunidadRouter().router,
+              new ActividadRouter().router,
+              new GastronomiaRouter().router,
+              new MenuRouter().router,
+              new AtractivoRouter().router,
+              new RestauranteRouter().router,
+              new HotelRouter().router
+            ];
     }
 
     public listen() {
