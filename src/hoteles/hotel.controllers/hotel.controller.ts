@@ -28,6 +28,7 @@ export class HotelController {
           const {nombre}=req.body;
           const {descripcion}=req.body;
           const {direccion}=req.body;
+          const {tipo}=req.body;
           const {categoria}=req.body;
           const {num_habitaciones}=req.body;
           const {telefono}=req.body;
@@ -36,7 +37,7 @@ export class HotelController {
           const {latitud}=req.body;
           const {estado}=req.body;
           const {id_comunidad}=req.body;
-          const data= await updateHotelQuery(nombre,descripcion,direccion,categoria,num_habitaciones,telefono,foto,longitud,latitud,estado,id_comunidad,id);
+          const data= await updateHotelQuery(nombre,descripcion,direccion,tipo,categoria,num_habitaciones,telefono,foto,longitud,latitud,estado,id_comunidad,id);
           
           if(!data.ok) {
                res.status(500).json(data);
@@ -49,6 +50,7 @@ export class HotelController {
           const {nombre}=req.body;
           const {descripcion}=req.body;
           const {direccion}=req.body;
+          const {tipo}=req.body;
           const {categoria}=req.body;
           const {num_habitaciones}=req.body;
           const {telefono}=req.body;
@@ -58,7 +60,7 @@ export class HotelController {
           const {estado}=req.body;
           const {id_comunidad}=req.body;
      
-          const data= await createHotelQuery(nombre,descripcion,direccion,categoria,num_habitaciones,telefono,foto,longitud,latitud,estado,id_comunidad);
+          const data= await createHotelQuery(nombre,descripcion,direccion,tipo,categoria,num_habitaciones,telefono,foto,longitud,latitud,estado,id_comunidad);
           
           if(!data.ok) {
                res.status(500).json(data);

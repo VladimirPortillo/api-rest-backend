@@ -42,6 +42,7 @@ export class ComunidadController {
   }
   //crea una nueva comunidad
   async createComunidad (req:Request, res:Response){  
+     console.log('entro agregar comunidad');
         const {nombre}=req.body;
         const {descripcion}=req.body;
         const {superficie}=req.body;

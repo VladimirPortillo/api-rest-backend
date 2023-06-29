@@ -29,9 +29,9 @@ export const verHotelQuery= async (id_hotel:number):Promise<any>=>{
         return resp;
     }
 }
-export const updateHotelQuery= async (nombre:string,descripcion:string,direccion:string,categoria:string,num_habitaciones:number,telefono:number,foto:string,longitud:number,latitud:number,estado:number,id_comunidad:number, id_hotel: number):Promise<any>=>{
+export const updateHotelQuery= async (nombre:string,descripcion:string,direccion:string,tipo:string,categoria:string,num_habitaciones:number,telefono:number,foto:string,longitud:number,latitud:number,estado:number,id_comunidad:number, id_hotel: number):Promise<any>=>{
     try {
-        const response: QueryResult= await pool.query('UPDATE hoteles SET nombre=$1,descripcion=$2,direccion=$3,categoria=$4,num_habitaciones=$5,telefono=$6,foto=$7,longitud=$8,latitud=$9,estado=$10,id_comunidad=$11 WHERE id_hotel=$12', [nombre,descripcion,direccion,categoria,num_habitaciones,telefono,foto,longitud,latitud,estado,id_comunidad,id_hotel]);
+        const response: QueryResult= await pool.query('UPDATE hoteles SET nombre=$1,descripcion=$2,direccion=$3,tipo=$4,categoria=$5,num_habitaciones=$6,telefono=$7,foto=$8,longitud=$9,latitud=$10,estado=$11,id_comunidad=$12 WHERE id_hotel=$13', [nombre,descripcion,direccion,tipo,categoria,num_habitaciones,telefono,foto,longitud,latitud,estado,id_comunidad,id_hotel]);
         //return response;
         let resp = {
             ok: true,
@@ -53,9 +53,9 @@ export const updateHotelQuery= async (nombre:string,descripcion:string,direccion
     }
 
 }
-export const createHotelQuery= async (nombre:string,descripcion:string,direccion:string,categoria:string,num_habitaciones:number,telefono:number,foto:string,longitud:number,latitud:number,estado:number,id_comunidad:number):Promise<any>=>{
+export const createHotelQuery= async (nombre:string,descripcion:string,direccion:string,tipo:string,categoria:string,num_habitaciones:number,telefono:number,foto:string,longitud:number,latitud:number,estado:number,id_comunidad:number):Promise<any>=>{
     try {
-        const response: QueryResult= await pool.query('INSERT INTO hoteles(nombre,descripcion,direccion,categoria,num_habitaciones,telefono,foto,longitud,latitud,estado,id_comunidad) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)',[nombre,descripcion,direccion,categoria,num_habitaciones,telefono,foto,longitud,latitud,estado,id_comunidad]);
+        const response: QueryResult= await pool.query('INSERT INTO hoteles(nombre,descripcion,direccion,tipo,categoria,num_habitaciones,telefono,foto,longitud,latitud,estado,id_comunidad) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)',[nombre,descripcion,direccion,tipo,categoria,num_habitaciones,telefono,foto,longitud,latitud,estado,id_comunidad]);
         
         let resp = {
             ok: true,

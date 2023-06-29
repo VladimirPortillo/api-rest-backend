@@ -10,6 +10,26 @@ export const getGastronomiasQuery= async ():Promise<any>=>{
         return error;
     }
 }
+export const verGastronomiaQuery= async (id_gastronomia:number):Promise<any>=>{
+    console.log(id_gastronomia);
+    try {
+        const response: QueryResult= await pool.query('SELECT * FROM gastronomias WHERE id_gastronomia=$1',[id_gastronomia]);
+        console.log(response);
+        let resp = {
+            ok: true,
+            msg: 'Se recupero el registro con exito',
+            data: response.rows
+        }
+        return resp;
+    } catch (error) {
+        const resp = {
+            ok: false,
+            msg: 'Error al recuperar el registro base de datos',
+            data: error
+        }
+        return resp;
+    }
+}
 export const updateGastronomiaQuery= async (nombre:string,descripcion:string,tipo:string,estado:number,id_comunidad:number, id_gastronomia: number):Promise<any>=>{
     try {
         const response: QueryResult= await pool.query('UPDATE gastronomias SET nombre=$1,descripcion=$2,tipo=$3,estado=$4,id_comunidad=$5 WHERE id_gastronomia=$6', [nombre,descripcion,tipo,estado,id_comunidad,id_gastronomia]);
@@ -34,9 +54,9 @@ export const updateGastronomiaQuery= async (nombre:string,descripcion:string,tip
     }
 
 }
-export const createGastronomiaQuery= async (id_gastronomia:number,nombre:string,descripcion:string,tipo:string,estado:number,id_comunidad:number):Promise<any>=>{
+export const createGastronomiaQuery= async (nombre:string,descripcion:string,tipo:string,estado:number):Promise<any>=>{
     try {
-        const response: QueryResult= await pool.query('INSERT INTO gastronomias(id_gastronomia,nombre,descripcion,tipo,estado,id_comunidad) VALUES ($1,$2,$3,$4,$5,$6)',[id_gastronomia,nombre,descripcion,tipo,estado,id_comunidad]);
+        const response: QueryResult= await pool.query('INSERT INTO gastronomias(nombre,descripcion,tipo,estado) VALUES ($1,$2,$3,$4)',[nombre,descripcion,tipo,estado]);
         
         let resp = {
             ok: true,

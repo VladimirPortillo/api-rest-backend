@@ -1,5 +1,5 @@
 import  { Request , Response} from "express";
-import {  getGastronomiasQuery,updateGastronomiaQuery,createGastronomiaQuery,deleteGastronomiaQuery,habilitarGastronomiaQuery} from "../gastronomia.services/gastronomia.service"; 
+import {  getGastronomiasQuery,updateGastronomiaQuery,createGastronomiaQuery,deleteGastronomiaQuery,habilitarGastronomiaQuery, verGastronomiaQuery} from "../gastronomia.services/gastronomia.service"; 
 
 export class GastronomiaController {    
      //lista todos los roles 
@@ -12,6 +12,17 @@ export class GastronomiaController {
                console.log(e)
           }    
        }
+         //actualiza un nuevo rol
+         async verGastronomia (req:Request, res:Response){   
+          const id=parseInt(req.params.id);
+          console.log('entro 1');
+          const data= await verGastronomiaQuery(id);
+          
+          if(!data.ok) {
+               res.status(500).json(data);
+          } 
+          res.status(200).json(data);
+    }
        //actualiza un nuevo rol
        async updateGastronomia (req:Request, res:Response){   
              const id=parseInt(req.params.id);
@@ -29,14 +40,13 @@ export class GastronomiaController {
        }
        //crea un nuevo rol
        async createGastronomia (req:Request, res:Response){   
-             const {id_gastronomia}=req.body;
              const {nombre}=req.body;
              const {descripcion}=req.body;
              const {tipo}=req.body;
              const {estado}=req.body;
-             const {id_comunidad}=req.body;
+            
         
-             const data= await createGastronomiaQuery(id_gastronomia,nombre,descripcion,tipo,estado,id_comunidad);
+             const data= await createGastronomiaQuery(nombre,descripcion,tipo,estado);
              
              if(!data.ok) {
                   res.status(500).json(data);

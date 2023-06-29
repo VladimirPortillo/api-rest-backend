@@ -54,6 +54,7 @@ export const updateComunidadQuery= async (nombre:string,descripcion:string,super
 
 }
 export const createComunidadQuery= async (nombre:string,descripcion:string,superficie:number,poblacion:number,longitud:number,latitud:number,estado:number,id_usuario:number):Promise<any>=>{
+    console.log(nombre,descripcion,superficie,poblacion,longitud,latitud,estado,id_usuario);
     try {
         const response: QueryResult= await pool.query('INSERT INTO comunidades(nombre,descripcion,superficie,poblacion,longitud,latitud,estado,id_usuario) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)',[nombre,descripcion,superficie,poblacion,longitud,latitud,estado,id_usuario]);
         
