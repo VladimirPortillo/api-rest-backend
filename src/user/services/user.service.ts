@@ -53,9 +53,9 @@ export const updateUsuarioQuery= async (nombre:string,ap:string,am:string,ci:num
     }
 
 }
-export const createUsuarioQuery= async (id_usuario:number,nombre:string,ap:string,am:string,ci:number,fecha_nac:string,usuario:string,contrasena:string,estado: number,id_rol:number):Promise<any>=>{
+export const createUsuarioQuery= async (nombre:string,ap:string,am:string,ci:number,fecha_nac:string,usuario:string,contrasena:string,estado: number,id_rol:number):Promise<any>=>{
     try {
-        const response: QueryResult= await pool.query('INSERT INTO usuarios(id_usuario,nombre,ap,am,ci,fecha_nac,usuario,contrasena,estado,id_rol) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)',[id_usuario,nombre,ap,am,ci,fecha_nac,usuario,contrasena,estado,id_rol]);
+        const response: QueryResult= await pool.query('INSERT INTO usuarios(nombre,ap,am,ci,fecha_nac,usuario,contrasena,estado,id_rol) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)',[nombre,ap,am,ci,fecha_nac,usuario,contrasena,estado,id_rol]);
         
         let resp = {
             ok: true,

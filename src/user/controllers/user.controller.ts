@@ -43,7 +43,7 @@ export class UserController {
        }
        //crea un nuevo rol
        async createUsuario (req:Request, res:Response){   
-             const {id_usuario}=req.body;
+             //const {id_usuario}=req.body;
              const {nombre}=req.body;
              const {ap}=req.body;
              const {am}=req.body;
@@ -53,8 +53,8 @@ export class UserController {
              const {contrasena}=req.body;
              const {estado}=req.body;
              const {id_rol}=req.body;
-             console.log(id_usuario,nombre,ap,am,ci,fecha_nac,usuario,contrasena,estado,id_rol);
-             const data= await createUsuarioQuery(id_usuario,nombre,ap,am,ci,fecha_nac,usuario,contrasena,estado,id_rol);
+             console.log(nombre,ap,am,ci,fecha_nac,usuario,contrasena,estado,id_rol);
+             const data= await createUsuarioQuery(nombre,ap,am,ci,fecha_nac,usuario,contrasena,estado,id_rol);
              
              if(!data.ok) {
                   res.status(500).json(data);
