@@ -33,9 +33,9 @@ export const updateActividadQuery= async (nombre:string,descripcion:string,direc
     }
 
 }
-export const createActividadQuery= async (id_actividad:number,nombre:String,descripcion:String,direccion:String,fecha_inicio:String,fecha_fin:String,longitud:number,latitud:number,estado:number):Promise<any>=>{
+export const createActividadQuery= async (nombre:String,descripcion:String,direccion:String,fecha_inicio:String,fecha_fin:String,longitud:number,latitud:number,estado:number):Promise<any>=>{
     try {
-        const response: QueryResult= await pool.query('INSERT INTO actividades(id_actividad,nombre,descripcion,direccion,fecha_inicio,fecha_fin,longitud,latitud,estado) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)',[id_actividad,nombre,descripcion,direccion,fecha_inicio,fecha_fin,longitud,latitud,estado]);
+        const response: QueryResult= await pool.query('INSERT INTO actividades(nombre,descripcion,direccion,fecha_inicio,fecha_fin,longitud,latitud,estado) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)',[nombre,descripcion,direccion,fecha_inicio,fecha_fin,longitud,latitud,estado]);
         
         let resp = {
             ok: true,

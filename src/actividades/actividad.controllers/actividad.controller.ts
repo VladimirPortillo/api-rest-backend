@@ -32,7 +32,6 @@ export class ActividadController {
             }
             //crea un nuevo rol
             async createActividad (req:Request, res:Response){   
-                  const {id_actividad}=req.body;
                   const {nombre}=req.body;
                   const {descripcion}=req.body;
                   const {direccion}=req.body;
@@ -43,7 +42,7 @@ export class ActividadController {
                   const {estado}=req.body;
                   
              
-                  const data= await createActividadQuery(id_actividad,nombre,descripcion,direccion,fecha_inicio,fecha_fin,longitud,latitud,estado);
+                  const data= await createActividadQuery(nombre,descripcion,direccion,fecha_inicio,fecha_fin,longitud,latitud,estado);
                   
                   if(!data.ok) {
                        res.status(500).json(data);
