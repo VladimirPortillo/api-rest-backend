@@ -4,7 +4,7 @@ import { pool } from "../../database/database";
 export const getRolesQuery= async ():Promise<any>=>{
     try {
         const response: QueryResult= await pool.query('SELECT * FROM roles');
-        console.log(response);
+        //console.log(response);
         return response.rows;
     } catch (error) {
         return error;

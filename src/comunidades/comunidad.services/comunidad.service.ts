@@ -4,7 +4,7 @@ import { pool } from "../../database/database";
 export const getComunidadesQuery= async ():Promise<any>=>{
     try {
         const response: QueryResult= await pool.query('SELECT * FROM comunidades');
-        console.log(response);
+        //console.log(response);
         return response.rows;
     } catch (error) {
         return error;

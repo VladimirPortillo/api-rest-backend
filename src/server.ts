@@ -47,7 +47,6 @@ class ServerBootstrap {
               new HotelRouter().router
             ];
     }
-
     public listen() {
         this.app.listen(this.port, () => {
           console.log(
@@ -57,5 +56,4 @@ class ServerBootstrap {
     }
 
 }
-
 new ServerBootstrap();

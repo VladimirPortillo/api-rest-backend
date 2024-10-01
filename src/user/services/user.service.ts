@@ -1,6 +1,18 @@
 import { QueryResult } from "pg";
 import { pool } from "../../database/database";
 
+
+export const logUserQuery= async (usuario:string,cont:string):Promise<any>=>{
+    console.log('servicio:'+usuario);
+    try {
+        const response: QueryResult= await pool.query('SELECT * FROM usuarios WHERE usuario=$1',[usuario]);
+        console.log(response);
+        return response.rows;
+
+    } catch (error) {
+        return error;
+    }
+}
 export const getUsuariosQuery= async ():Promise<any>=>{
     try {
         const response: QueryResult= await pool.query('SELECT * FROM usuarios');

@@ -35,6 +35,7 @@ export class RestauranteController {
           const {latitud}=req.body;
           const {estado}=req.body;
           const {id_comunidad}=req.body;
+          
           const data= await updateRestauranteQuery(nombre,descripcion,direccion,categoria,telefono,foto,longitud,latitud,estado,id_comunidad,id);
           
           if(!data.ok) {
@@ -43,8 +44,9 @@ export class RestauranteController {
           res.status(200).json(data);
     }
     //crea un nuevo rol
-    async createRestaurante (req:Request, res:Response){   
-          
+    async createRestaurante (req:Request, res:Response){ 
+     console.log('req.body =>', req.body);
+     console.log('entro crear restaurante:');
           const {nombre}=req.body;
           const {descripcion}=req.body;
           const {direccion}=req.body;
@@ -55,8 +57,9 @@ export class RestauranteController {
           const {latitud}=req.body;
           const {estado}=req.body;
           const {id_comunidad}=req.body;
-     
+          console.log('restaurante:'+req)
           const data= await createRestauranteQuery(nombre,descripcion,direccion,categoria,telefono,foto,longitud,latitud,estado,id_comunidad);
+          console.log('data => ',data);
           
           if(!data.ok) {
                res.status(500).json(data);

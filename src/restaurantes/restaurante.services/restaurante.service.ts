@@ -4,7 +4,7 @@ import { pool } from "../../database/database";
 export const getRestaurantesQuery= async ():Promise<any>=>{
     try {
         const response: QueryResult= await pool.query('SELECT * FROM restaurantes');
-        console.log(response);
+        //console.log(response);
         return response.rows;
     } catch (error) {
         return error;

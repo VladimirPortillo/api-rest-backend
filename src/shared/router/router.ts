@@ -7,8 +7,7 @@ export class BaseRouter<T>{
     constructor(TController:{ new (): T}){
         this.router=Router();
         this.controller= new TController();
-        this.routes();
-        
+        this.routes();  
     }
     routes(){
         
