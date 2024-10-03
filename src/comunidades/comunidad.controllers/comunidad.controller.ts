@@ -51,8 +51,16 @@ export class ComunidadController {
         const {latitud}=req.body;
         const {estado}=req.body;
         const {id_usuario}=req.body;
-   
+
+        console.log('Ruta de las imágenes guardadas ', req.body.filesName);
+        //const {filesName}=req.body;
+        
+        // crea la comunidad en la DB  
         const data= await createComunidadQuery(nombre,descripcion,superficie,poblacion,longitud,latitud,estado,id_usuario);
+
+        // recuperar la comunidad por con where de todos los campos nombre,descripcion,superficie,poblacion,longitud,latitud,estado,id_usuario
+        // hacer una función guardar los datos de filesName en la DB
+        // const guardarRutaImagen = await guardarRutaImagen(filesName, id_comunidad)
         
         if(!data.ok) {
              res.status(500).json(data);

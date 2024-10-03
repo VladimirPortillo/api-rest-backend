@@ -2,6 +2,7 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import path from "path";
 
 import { UserRouter } from "./user/user.router";
 import { RolRouter } from "./roles/rol.router";
@@ -12,6 +13,7 @@ import { MenuRouter } from "./menus/menu.router";
 import { AtractivoRouter } from "./atractivos_turisticos/atractivo.router";
 import { RestauranteRouter } from "./restaurantes/restaurante.router";
 import { HotelRouter } from "./hoteles/hotel.router";
+import { ImagenRouter } from "./imagenes/imagen.router";
 
 
 class ServerBootstrap {
@@ -23,6 +25,7 @@ class ServerBootstrap {
       
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
+        this.app.use("/public", express.static(path.join(__dirname, "../public")));
         this.app.use(morgan("dev"));
         //this.app.use(cors);
           this.app.use(
@@ -44,7 +47,8 @@ class ServerBootstrap {
               new MenuRouter().router,
               new AtractivoRouter().router,
               new RestauranteRouter().router,
-              new HotelRouter().router
+              new HotelRouter().router,
+              new ImagenRouter().router
             ];
     }
     public listen() {
