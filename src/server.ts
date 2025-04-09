@@ -14,6 +14,8 @@ import { AtractivoRouter } from "./atractivos_turisticos/atractivo.router";
 import { RestauranteRouter } from "./restaurantes/restaurante.router";
 import { HotelRouter } from "./hoteles/hotel.router";
 import { ImagenRouter } from "./imagenes/imagen.router";
+import { tipoActividadRouter } from "./tipo_actividades/tipoActividad.router";
+import { ReporteRouter } from "./reportes/reporte.router";
 
 
 class ServerBootstrap {
@@ -48,7 +50,9 @@ class ServerBootstrap {
               new AtractivoRouter().router,
               new RestauranteRouter().router,
               new HotelRouter().router,
-              new ImagenRouter().router
+              new ImagenRouter().router,
+              new tipoActividadRouter().router,
+              new ReporteRouter().router
             ];
     }
     public listen() {

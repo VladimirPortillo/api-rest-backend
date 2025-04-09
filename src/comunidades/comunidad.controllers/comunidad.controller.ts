@@ -1,9 +1,10 @@
 import  { Request , Response} from "express";
 import {  createComunidadQuery, deleteComunidadQuery, getComunidadesQuery,habilitarComunidadQuery,updateComunidadQuery, verComunidadQuery} from "../comunidad.services/comunidad.service"; 
+import { createMultimediaQuery, deleteMultimediaQuery } from "../../multimedias/multimedia.services/multimedia.service";
 
 export class ComunidadController {    
-  //lista todos los roles 
-  async getComunidades (req:Request, res:Response){   
+     //lista todas las comunidades
+     async getComunidades (req:Request, res:Response){   
         
      try {
           const data= await getComunidadesQuery();
@@ -11,8 +12,8 @@ export class ComunidadController {
      } catch (e) {
           console.log(e)
      }    
-  }
-//ver un nuevo rol
+     }
+     //ver una comunidad
        async verComunidad (req:Request, res:Response){   
           const id=parseInt(req.params.id);
           const data= await verComunidadQuery(id);
@@ -21,54 +22,77 @@ export class ComunidadController {
                res.status(500).json(data);
           } 
           res.status(200).json(data);
-    }
-  //actualiza un nuevo rol
-  async updateComunidad (req:Request, res:Response){   
+     }
+     //actualiza una comunidad
+     async updateComunidad (req:Request, res:Response){   
         const id=parseInt(req.params.id);
-        const {nombre}=req.body;
-        const {descripcion}=req.body;
-        const {superficie}=req.body;
-        const {poblacion}=req.body;
-        const {longitud}=req.body;
-        const {latitud}=req.body;
-        const {estado}=req.body;
-        const {id_usuario}=req.body;
-        const data= await updateComunidadQuery(nombre,descripcion,superficie,poblacion,longitud,latitud,estado,id_usuario,id);
-        
-        if(!data.ok) {
-             res.status(500).json(data);
-        } 
-        res.status(200).json(data);
-  }
-  //crea una nueva comunidad
-  async createComunidad (req:Request, res:Response){  
-     console.log('entro agregar comunidad');
-        const {nombre}=req.body;
-        const {descripcion}=req.body;
-        const {superficie}=req.body;
-        const {poblacion}=req.body;
-        const {longitud}=req.body;
-        const {latitud}=req.body;
-        const {estado}=req.body;
-        const {id_usuario}=req.body;
+        console.log('id_comunidad', id);
+        console.log('req.body', req.body);
+        const data = JSON.parse(req.body.data); // data contine toda la info de comunidad
+        //console.log('data', data);
 
-        console.log('Ruta de las imágenes guardadas ', req.body.filesName);
-        //const {filesName}=req.body;
+        const {filesName}=req.body;
+
+        const deleteMultimedias = data.multimedias.filter((m: { eliminar: boolean; }) => m.eliminar === true);
+        //console.log('deleteMultimedias', deleteMultimedias);
+        
+        let updateComunidad= await updateComunidadQuery(data.nombre,data.descripcion,data.superficie,data.poblacion,data.longitud,data.latitud,data.estado,data.id_usuario,id);
+        
+        let resp = updateComunidad;
+
+        if(!updateComunidad.ok) {
+          res.status(500).json(updateComunidad);
+          return;
+        } 
+
+        if(deleteMultimedias.length > 0) {
+          // elimina los multimedia que elimino el usuario de la DB y el archivo 
+          const respDeleteMultimedia = await deleteMultimediaQuery(deleteMultimedias); 
+          // console.log('respDeleteMultimedia', respDeleteMultimedia);
+          resp.deleteMultimedia = respDeleteMultimedia;
+        }
+
+        if(filesName.length > 0) {
+          // agrega nuevos archivos si existe
+          const respCreateMultimedia = await createMultimediaQuery(id, filesName, 1, 'comunidades');
+          // console.log('insert rutas en multimedia', respCreateMultimedia);  
+          resp.createMultimedia = respCreateMultimedia;
+        }
+        
+        return res.status(200).json(resp);
+
+     }
+     //crea una nueva comunidad
+     async createComunidad (req:Request, res:Response){  
+        const {nombre}=req.body;
+        const {descripcion}=req.body;
+        const {superficie}=req.body;
+        const {poblacion}=req.body;
+        const {longitud}=req.body;
+        const {latitud}=req.body;
+        const {estado}=req.body;
+        const {id_usuario}=req.body;
+        
+        const {filesName}=req.body;
+        console.log('Array imagenes', filesName);        
         
         // crea la comunidad en la DB  
         const data= await createComunidadQuery(nombre,descripcion,superficie,poblacion,longitud,latitud,estado,id_usuario);
+        console.log('resp insert comunidad', data);
+        const id_comunidad = data.data.rows[0].id_comunidad;
+        console.log('Insert id_omunidad', id_comunidad);        
 
-        // recuperar la comunidad por con where de todos los campos nombre,descripcion,superficie,poblacion,longitud,latitud,estado,id_usuario
-        // hacer una función guardar los datos de filesName en la DB
-        // const guardarRutaImagen = await guardarRutaImagen(filesName, id_comunidad)
+        const respMultimedia = await createMultimediaQuery(id_comunidad, filesName, 1, 'comunidades');
+
+        console.log('insert rutas en multimedia', respMultimedia);        
         
         if(!data.ok) {
              res.status(500).json(data);
         } 
         res.status(200).json(data);
-   }
-   //elimina de manera logica un rol
-   async deleteComunidad (req:Request, res:Response){   
+     }
+     //elimina de manera logica una comunidad
+     async deleteComunidad (req:Request, res:Response){   
         const id=parseInt(req.params.id);
         const data= await deleteComunidadQuery(id);
         
@@ -76,9 +100,9 @@ export class ComunidadController {
              res.status(500).json(data);
         } 
         res.status(200).json(data);
-  }
-  //habilitar  un rol
-  async habilitarComunidad (req:Request, res:Response){   
+     }
+     //habilitar  una comunidad
+     async habilitarComunidad (req:Request, res:Response){   
         const id=parseInt(req.params.id);
         const data= await habilitarComunidadQuery(id);
         
@@ -86,6 +110,6 @@ export class ComunidadController {
              res.status(500).json(data);
         } 
         res.status(200).json(data);
-   }
+     }
  }
  

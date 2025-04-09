@@ -14,10 +14,21 @@ export const verRestauranteQuery= async (id_restaurante:number):Promise<any>=>{
     try {
         const response: QueryResult= await pool.query('SELECT * FROM restaurantes WHERE id_restaurante=$1',[id_restaurante]);
         console.log(response);
+        const multimedia: QueryResult = await pool.query(`
+            SELECT m.id_multimedia, m.ruta, m.tipo_Archivo 
+            FROM multimedias m where m.tipo = 2 
+            AND m.estado = 1 
+            AND m.id_tabla_asociado = $1`, [id_restaurante]);
+        //console.log('multimedia', multimedia);
+
+        const restaurante = response.rows[0];
+
+        restaurante.multimedias = multimedia.rows;
+        console.log(response);
         let resp = {
             ok: true,
             msg: 'Se recupero el registro con exito',
-            data: response.rows
+            data: restaurante
         }
         return resp;
     } catch (error) {
@@ -29,9 +40,9 @@ export const verRestauranteQuery= async (id_restaurante:number):Promise<any>=>{
         return resp;
     }
 }
-export const updateRestauranteQuery= async (nombre:string,descripcion:string,direccion:string,categoria:string,telefono:number,foto:string,longitud:number,latitud:number,estado:number,id_comunidad:number,id_restaurante:number):Promise<any>=>{
+export const updateRestauranteQuery= async (nombre:string,descripcion:string,direccion:string,categoria:string,telefono:number,delivery:string,longitud:number,latitud:number,estado:number,id_comunidad:number,id_restaurante:number):Promise<any>=>{
     try {
-        const response: QueryResult= await pool.query('UPDATE restaurantes SET nombre=$1,descripcion=$2,direccion=$3,categoria=$4,telefono=$5,foto=$6,longitud=$7,latitud=$8,estado=$9,id_comunidad=$10 WHERE id_restaurante=$11', [nombre,descripcion,direccion,categoria,telefono,foto,longitud,latitud,estado,id_comunidad,id_restaurante]);
+        const response: QueryResult= await pool.query('UPDATE restaurantes SET nombre=$1,descripcion=$2,direccion=$3,categoria=$4,telefono=$5,delivery=$6,longitud=$7,latitud=$8,estado=$9,id_comunidad=$10 WHERE id_restaurante=$11', [nombre,descripcion,direccion,categoria,telefono,delivery,longitud,latitud,estado,id_comunidad,id_restaurante]);
         //return response;
         let resp = {
             ok: true,
@@ -53,9 +64,9 @@ export const updateRestauranteQuery= async (nombre:string,descripcion:string,dir
     }
 
 }
-export const createRestauranteQuery= async (nombre:string,descripcion:string,direccion:string,categoria:string,telefono:number,foto:string,longitud:number,latitud:number,estado:number,id_comunidad:number):Promise<any>=>{
+export const createRestauranteQuery= async (nombre:string,descripcion:string,direccion:string,categoria:string,telefono:number,delivery:string,longitud:number,latitud:number,estado:number,id_comunidad:number):Promise<any>=>{
     try {
-        const response: QueryResult= await pool.query('INSERT INTO restaurantes(nombre,descripcion,direccion,categoria,telefono,foto,longitud,latitud,estado,id_comunidad) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)',[nombre,descripcion,direccion,categoria,telefono,foto,longitud,latitud,estado,id_comunidad]);
+        const response: QueryResult= await pool.query('INSERT INTO restaurantes(nombre,descripcion,direccion,categoria,telefono,delivery,longitud,latitud,estado,id_comunidad) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)RETURNING id_restaurante',[nombre,descripcion,direccion,categoria,telefono,delivery,longitud,latitud,estado,id_comunidad]);
         
         let resp = {
             ok: true,

@@ -12,11 +12,19 @@ export const getAtractivosQuery= async ():Promise<any>=>{
 export const verAtractivoQuery= async (id_atractivo:number):Promise<any>=>{
     try {
         const response: QueryResult= await pool.query('SELECT * FROM atractivos_turisticos WHERE id_atractivo=$1',[id_atractivo]);
+        const multimedia: QueryResult = await pool.query(`
+                        SELECT m.id_multimedia, m.ruta, m.tipo_Archivo 
+                        FROM multimedias m where m.tipo = 4 
+                        AND m.estado = 1 
+                        AND m.id_tabla_asociado = $1`, [id_atractivo]);
+        const atractivo = response.rows[0];
+
+        atractivo.multimedias = multimedia.rows;
         console.log(response);
         let resp = {
             ok: true,
             msg: 'Se recupero el registro con exito',
-            data: response.rows
+            data: atractivo
         }
         return resp;
     } catch (error) {
@@ -54,7 +62,7 @@ export const updateAtractivoQuery= async (nombre:string,descripcion:string,direc
 }
 export const createAtractivoQuery= async (nombre:string,descripcion:string,direccion:string,longitud:number,latitud:number,estado:number,id_comunidad:number):Promise<any>=>{
     try {
-        const response: QueryResult= await pool.query('INSERT INTO atractivos_turisticos(nombre,descripcion,direccion,longitud,latitud,estado,id_comunidad) VALUES ($1,$2,$3,$4,$5,$6,$7)',[nombre,descripcion,direccion,longitud,latitud,estado,id_comunidad]);
+        const response: QueryResult= await pool.query('INSERT INTO atractivos_turisticos(nombre,descripcion,direccion,longitud,latitud,estado,id_comunidad) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id_atractivo',[nombre,descripcion,direccion,longitud,latitud,estado,id_comunidad]);
         
         let resp = {
             ok: true,

@@ -17,18 +17,18 @@ export class UserController {
      async loginUsuario(req:Request,res:Response){
           const usuario=req.body.usuario;
           const contrasena=req.body.contrasena;
-          // console.log('usuario:'+usuario);
+          //console.log('usuario:'+usuario);
           // console.log('contrasena:'+contrasena);
           try {
                // const bduser= await 
-               const users=await logUserQuery(usuario,contrasena); 
+               const users=await logUserQuery(usuario); 
                
-               // console.log('usuariobd:', users);
+                console.log('usuariobd:', users);
                //console.log('usuariobd:', users.rows[0]);
                if(users.length === 0){
                     return res.status(400).json({
                          ok:false,
-                         msg:'el usuario o contraseña es incorrecto'
+                         msg:'el usuario es incorrecto'
                     })
                }
                const validadContra=bcrypt.compareSync(contrasena,users[0].contrasena);
@@ -37,7 +37,7 @@ export class UserController {
                if(!validadContra){
                     return res.status(400).json({
                          ok:false,
-                         msg:'el usuario o contraseña es incorrecto'
+                         msg:' contraseña es incorrecto'
                     })
                }
               
